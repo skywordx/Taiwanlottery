@@ -12,25 +12,25 @@ library(rio) #匯出資料套件
 
 #seed配適-----------------
 #參數
-range_one=3001
-range_two=9100
+range_one=1001
+range_two=2000
 n=range_two-range_one+1
 
 #設定
-sed_acc=data.frame(seed=rep(0,n),times=rep(0,n))
+sed_acc=data.frame(seed=rep(0,1000),times=rep(0,1000))
 k=1
 
 #執行
 ptm <- proc.time()
 for(i in range_one:range_two){
-  # i=2406
+  # i=355
   set.seed(i)
-  acc=matrix(0,434,2)
-  for(j in 1:434){
-    num=sample(24,12)
-    if(sum(num%in%mytable[j,][3:14])>=6){
+  acc=matrix(0,1782,2)
+  for(j in 1:1782){
+    num=sample(39,5)
+    if(sum(num%in%mytable[j,][3:7])>=3){
       acc[j,1]=1
-      acc[j,2]=sum(num%in%mytable[j,][3:14])
+      acc[j,2]=sum(num%in%mytable[j,][3:7])
     }
   }
   if(sum(acc[,1])>=6){
@@ -42,3 +42,11 @@ for(i in range_one:range_two){
 
 proc.time() - ptm
 #-------------------------
+#最大值
+a=max(sed_acc[,2])
+#找最大的seed
+sed_acc[which(sed_acc[,2]==a),1]
+#找該seed的配適結果
+acc[which(acc[,1]==1),]
+
+View(sed_acc)
