@@ -1,0 +1,44 @@
+# install.packages("rvest")
+# install.packages("magrittr")
+# install.packages("xml2")
+# install.packages("rio")
+# install_formats()
+
+library("rvest")
+library("magrittr")
+library("xml2")
+library("httr")
+library(rio) #匯出資料套件
+
+#seed配適-----------------
+#參數
+range_one=3001
+range_two=9100
+n=range_two-range_one+1
+
+#設定
+sed_acc=data.frame(seed=rep(0,n),times=rep(0,n))
+k=1
+
+#執行
+ptm <- proc.time()
+for(i in range_one:range_two){
+  # i=2406
+  set.seed(i)
+  acc=matrix(0,434,2)
+  for(j in 1:434){
+    num=sample(24,12)
+    if(sum(num%in%mytable[j,][3:14])>=6){
+      acc[j,1]=1
+      acc[j,2]=sum(num%in%mytable[j,][3:14])
+    }
+  }
+  if(sum(acc[,1])>=6){
+    sed_acc[k,1]=i
+    sed_acc[k,2]=sum(acc[,1])
+    k=k+1
+  }
+}
+
+proc.time() - ptm
+#-------------------------
